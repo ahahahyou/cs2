@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小小测试</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('cb.jpg'); /* 请替换为正确的图片路径 */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 100vh;
+            position: relative;
+        }
+        .transparent-overlay {
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 30px;
+            width: 90%;
+            height: 75%;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            border-radius: 15px;
+            color: #000;
+        }
+        .question {
+            font-size: 5vh;
+            text-align: center;
+            font-family: '楷体', 'SimKai', 'Microsoft YaHei', sans-serif;
+            margin: 3px 0;
+        }
+        .options {
+            margin-top: 0;
+        }
+        .option-group {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        button {
+            margin: 0 80px;
+            padding: 10px 100px;
+            font-size: 4vh;
+            border: none;
+            border-radius: 5px;
+            background-color: transparent;
+            color: black;
+            cursor: pointer;
+            transition: none;
+            font-family: '楷体', 'SimKai', 'Microsoft YaHei', sans-serif;
+        }
+        button:hover {
+            background-color: lightgray;
+        }
+        .feedback {
+            margin-top: 20px;
+            font-size: 4vh;
+            color: green;
+            height: 40px;
+        }
+        .arrow-button {
+            position: absolute;
+            top: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 80px;
+            color: white;
+            z-index: 2;
+            transition: background-color 0.3s;
+        }
+        .arrow-button:hover {
+            background-color: transparent;
+        }
+        .left-arrow {
+            left: 10px;
+        }
+        .right-arrow {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <button class="arrow-button left-arrow" onclick="window.location.href='https://ahahahyou.github.io/cs1/'">&#8592;</button>
+    <button class="arrow-button right-arrow" onclick="window.location.href='https://ahahahyou.github.io/cs3/'">&#8594;</button>
+    
+    <div class="transparent-overlay">
+        <div class="question">
+            <p>问题3:茅檐低小，溪上青青草。”正确的断句是？</p>
+            <div class="options">
+                <div class="option-group">
+                    <button onclick="checkAnswer('A', 1)">选项A. 茅檐低/小，溪上青青/草。</button>
+                    <button onclick="checkAnswer('B', 1)">选项B. 茅檐/低小，溪上/青青草。</button>
+                </div>
+                <div class="option-group" style="margin-top: 10px;">
+                    <button onclick="checkAnswer('C', 1)">选项C. 茅檐低小，溪上/青青/草。</button>
+                    <button onclick="checkAnswer('D', 1)">选项D. 茅檐/低小，溪上青青/草。</button>
+                </div>
+            </div>
+            <div class="feedback" id="feedback1"></div>
+        </div>
+        <div class="question">
+            <p>问题4:醉里吴音相媚好”中的“吴音”指的是？</p>
+            <div class="options">
+                <div class="option-group">
+                    <button onclick="checkAnswer('A', 2)">选项A. 吴地的方言</button>
+                    <button onclick="checkAnswer('B', 2)">选项B. 一种乐器</button>
+                </div>
+                <div class="option-group" style="margin-top: 10px;">
+                    <button onclick="checkAnswer('C', 2)">选项C. 一种酒名</button>
+                    <button onclick="checkAnswer('D', 2)">选项D. 一种舞蹈</button>
+                </div>
+            </div>
+            <div class="feedback" id="feedback2"></div>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer(option, question) {
+            const correctAnswers = {
+                1: 'B', // 问题3的正确答案
+                2: 'A'  // 问题4的正确答案
+            };
+
+            const feedbackElement = document.getElementById(`feedback${question}`);
+            const buttons = document.querySelectorAll(`.question:nth-of-type(${question}) button`);
+
+            buttons.forEach(button => {
+                button.classList.remove('correct', 'incorrect');
+            });
+
+            if (option === correctAnswers[question]) {
+                feedbackElement.textContent = "答案正确！";
+                buttons.forEach(button => {
+                    if (button.textContent.includes(option)) {
+                        button.classList.add('correct');
+                    }
+                    if (button.textContent.includes(correctAnswers[question])) {
+                        button.classList.add('correct');
+                        button.style.color = 'red';
+                    }
+                });
+            } else {
+                feedbackElement.textContent = "答案错误！";
+                buttons.forEach(button => {
+                    if (button.textContent.includes(option)) {
+                        button.classList.add('incorrect');
+                    }
+                });
+            }
+
+            setTimeout(() => {
+                feedbackElement.textContent = "";
+                buttons.forEach(button => {
+                    button.classList.remove('correct', 'incorrect');
+                    button.style.color = 'black';
+                });
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
